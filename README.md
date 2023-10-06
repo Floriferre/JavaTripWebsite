@@ -36,3 +36,8 @@
 
 구현 기능: 전체 프로그램 동작/오류 없이 전체 동작 1
 ![실행화면캡쳐](./화면캡쳐/화면캡쳐_Main화면_web.png)
+
+### 구현기능 2 : 관련 관광지 검색시 조회수가 많은 관광지부터 보여주기
+Burble Sort, QuickSort 두 방식으로 구현해보았습니다.
+QuickSort가 평균적으로 O(NlogN) 시간에 동작하므로 BurbleSort 보다 빠른 성능을 보여주었습니다.
+![sortTime.gif](./sortTime.gif)
