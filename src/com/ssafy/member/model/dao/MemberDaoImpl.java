@@ -44,6 +44,9 @@ public class MemberDaoImpl implements MemberDao {
 		return cnt;
 	}
 
+	
+	
+	// 여기에서 유저 패스워드 검사! 
 	@Override
 	public int joinMember(MemberDto memberDto) throws SQLException {
 		int cnt = 0;
@@ -52,12 +55,13 @@ public class MemberDaoImpl implements MemberDao {
 		try {
 			conn = dbUtil.getConnection();
 			StringBuilder sql = new StringBuilder();
-			sql.append("insert into members (user_id, user_name, user_password) \n");
-			sql.append("values (?, ?, ?)");
+			sql.append("insert into members (user_id, user_name, user_password, salt) \n");
+			sql.append("values (?, ?, ?, ?)");
 			pstmt = conn.prepareStatement(sql.toString());
 			pstmt.setString(1, memberDto.getUserId());
 			pstmt.setString(2, memberDto.getUserName());
 			pstmt.setString(3, memberDto.getUserPwd());
+			pstmt.setString(4, memberDto.getSalt());			
 			cnt = pstmt.executeUpdate();
 		} finally {
 			dbUtil.close(pstmt, conn);
@@ -133,6 +137,34 @@ public class MemberDaoImpl implements MemberDao {
 		
 		System.out.println(res);
 		return res;
+	}
+
+	@Override
+	public MemberDto SearchMemberById(String userId) throws SQLException {
+		MemberDto memberDto = null;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			conn = dbUtil.getConnection();
+			StringBuilder loginMember = new StringBuilder();
+			loginMember.append("select * \n");
+			loginMember.append("from members \n");
+			loginMember.append("where user_id = ?");
+			pstmt = conn.prepareStatement(loginMember.toString());
+			pstmt.setString(1, userId);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				memberDto = new MemberDto();
+				memberDto.setUserId(rs.getString("user_id"));
+				memberDto.setUserName(rs.getString("user_name"));
+				memberDto.setUserPwd(rs.getString("user_password"));
+				memberDto.setSalt(rs.getString("salt"));
+			}
+		} finally {
+			dbUtil.close(rs, pstmt, conn);
+		}
+		return memberDto;
 	}
 
 }

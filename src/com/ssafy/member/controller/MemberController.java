@@ -141,7 +141,7 @@ public class MemberController extends HttpServlet {
 		
 		try {
 			MemberDto memberDto = memberService.loginMember(userId, userPwd);
-			System.out.println(memberDto);
+			System.out.println("너는 뭐니? " + memberDto);
 			if(memberDto != null) {
 //				session 설정
 				HttpSession session = request.getSession();

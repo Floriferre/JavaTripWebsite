@@ -6,6 +6,15 @@ public class MemberDto {
 	private String userName;
 	private String userPwd;
 	private String joinDate;
+	private String salt;
+
+	public String getSalt() {
+		return salt;
+	}
+
+	public void setSalt(String salt) {
+		this.salt = salt;
+	}
 
 	public String getUserId() {
 		return userId;
@@ -40,8 +49,9 @@ public class MemberDto {
 
 	@Override
 	public String toString() {
-		return "MemberDto [userId=" + userId + ", userName=" + userName + ", userPwd=" + userPwd + ", emailId="
-				+ ", joinDate=" + joinDate + "]";
+		return "MemberDto [userId=" + userId + ", userName=" + userName + ", userPwd=" + userPwd + ", joinDate="
+				+ joinDate + ", salt=" + salt + "]";
 	}
+
 
 }
