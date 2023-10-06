@@ -19,23 +19,23 @@ let areaUrl =
 //https://apis.data.go.kr/B551011/KorService1/areaCode1?serviceKey&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&areaCode=1&_type=json
 
 // fetch(areaUrl, { method: "GET" }).then(function (response) { return response.json() }).then(function (data) { makeOption(data); });
-fetch(areaUrl, { method: "GET" }) // 시도 얻어오기
-  .then((response) => response.json())
-  .then((data) => {
-    makeOption(data);
-  });
-
-function makeOption(data) {
-  let areas = data.response.body.items.item;
-  // console.log(areas);
-  let sel = document.getElementById("search-area-sido");
-  areas.forEach((area) => {
-    let opt = document.createElement("option");
-    opt.setAttribute("value", area.code);
-    opt.appendChild(document.createTextNode(area.name));
-
-    sel.appendChild(opt);
-  });
+makeOption();
+async function makeOption() {
+	const response = await fetch("${root}/info?action=sidoInfo", {
+		method: "get",
+		headers:{
+			'Content-Type': 'application/x-www-form-urlencoded'
+		}
+	})
+	const areas = await response.json();
+    let sel = document.getElementById("search-area");
+    console.log("execuetd");
+    areas.forEach((area) => {
+      let opt = document.createElement("option");
+      opt.setAttribute("value", area.sidoCode);
+      opt.appendChild(document.createTextNode(area.sidoName));
+      sel.appendChild(opt);
+    });
 }
 
 // 시군구 정보 추가할 것 <- 천천히 하자!

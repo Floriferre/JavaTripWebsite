@@ -200,6 +200,10 @@ console.log("${root}/assets/css/style.css");
 
     	location.href = "${root}/banner?action=bannerSearch&bannerSearch=" + document.querySelector("#banner-search").value;
     });
+    document.querySelectorAll("#recommendList").forEach((selector) => {
+    	  // 유형 정보가 있을 때만 쿼리에 더해주기 - 유형 정보 랜덤
+    	  makeRecommendList(data);
+    });
     </script>
     <script src="${root}/assets/js/index.js"></script>
     <script src="${root}/assets/js/index_recommend.js"></script>

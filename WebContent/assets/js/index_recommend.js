@@ -1,50 +1,8 @@
-let serviceKey =
-  "mkjat9vsl0199pCnob2wBf8GGO4TaYyBvJMUTzqFJA825iLzejIoGrnHy2BlVjBOPe0GrBvsbCeCqu0wnxCjBw%3D%3D";
-let areaUrl =
-  "https://apis.data.go.kr/B551011/KorService1/areaCode1?serviceKey=" +
-  serviceKey +
-  "&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json";
-
-// https://apis.data.go.kr/B551011/KorService1/areaCode1?serviceKey&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&areaCode=1&_type=json
-
-// fetch(areaUrl, { method: "GET" }).then(function (response) { return
-// response.json() }).then(function (data) { makeOption(data); });
-fetch(areaUrl, { method: "GET" }) // 시도 얻어오기
-  .then((response) => response.json())
-  .then((data) => console.log("데이터는 : " + data.response.body.items.item));
-
-// 검색 버튼을 누르면..
-// 지역, 유형, 검색어 얻기.
-// 위 데이터를 가지고 공공데이터에 요청.
-// 받은 데이터를 이용하여 화면 구성.
-
-//document.querySelectorAll("#recommendList").forEach((selector) => {
-  let baseUrl = `https://apis.data.go.kr/B551011/KorService1/`;
-  // let searchUrl =
-	// `https://apis.data.go.kr/B551011/KorService1/searchKeyword1?serviceKey=${serviceKey}&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A`;
-  // let searchUrl =
-	// `https://apis.data.go.kr/B551011/KorService1/areaBasedList1?serviceKey=${serviceKey}&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A`;
-
-  let queryString = `serviceKey=${serviceKey}&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A`;
-
-  // 지역 정보는 1~17로 이루어져 있음!
-  queryString += `&areaCode=${Math.ceil(Math.random() * 8)}`;
+document.querySelectorAll("#recommendList").forEach((selector) => {
   // 유형 정보가 있을 때만 쿼리에 더해주기 - 유형 정보 랜덤
-  let contentType = [12, 14, 15, 25, 28, 38, 39];
-  queryString += `&contentTypeId=${
-    contentType[Math.floor(Math.random() * contentType.length)]
-  }`;
-  let service = `areaBasedList1`;
-
-  let searchUrl = baseUrl + service + "?" + queryString;
-  console.log(searchUrl);
-  fetch(searchUrl)
-    .then((response) => response.json())
-    .then((data) => {
-      makeRecommendList(data);
-    });
+  makeRecommendList(data);
 });
-function makeRecommendList(data) {
+async function makeRecommendList(data) {
   let mother = document.querySelector("#recommendList");
   let trips = data.response.body.items.item;
   // let tripList = ``;
@@ -52,7 +10,6 @@ function makeRecommendList(data) {
   let i = 0;
   let imgcheck = false;
 
-  console.log(trips);
   trips.forEach((area) => {
     if (i == 6) {
       return false;

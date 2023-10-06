@@ -99,7 +99,7 @@ public class MemberDaoImpl implements MemberDao {
 		int res = -1;
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		String sql = "update members set user_pass = ? where user_id = ?";
+		String sql = "update members set user_password = ? where user_id = ?";
 		
 		try {
 			con = DBUtil.getInstance().getConnection();

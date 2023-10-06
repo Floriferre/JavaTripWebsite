@@ -34,7 +34,7 @@ public class AttractionDaoImpl implements AttractionDao{
 			sql.append("select * from attraction_info");
 			
 			HashMap<String, Object> params = new HashMap<>();
-			if (attractionInfoDto.getContentId() != 0) params.put("content_id", attractionInfoDto.getContentId());
+			if (attractionInfoDto.getContentId() != 0) params.put("content_type_id", attractionInfoDto.getContentId());
 			if (attractionInfoDto.getSidoCode() != 0) params.put("sido_code", attractionInfoDto.getSidoCode());
 			if (params.size() != 0) sql.append(" where ");
 			int size = params.size();
@@ -47,15 +47,17 @@ public class AttractionDaoImpl implements AttractionDao{
 			stmt = con.prepareStatement(sql.toString());
 			
 			for (Object value : params.values()) {
-				if (value instanceof String) stmt.setString(cursor++, value.toString());
-				if (value instanceof Integer) stmt.setInt(cursor++, Integer.parseInt(value.toString()));
+				if (value instanceof String) {
+					stmt.setString(cursor++, value.toString());
+				}
+				if (value instanceof Integer) {
+					stmt.setInt(cursor++, Integer.parseInt(value.toString()));
+				}
 			} 
-			
 			rset = stmt.executeQuery();
 			
 			while(rset.next()) {
 				AttractionInfoDto AIDto = new AttractionInfoDto();
-				
 				AIDto.setContentId(rset.getInt("Content_id"));
 				AIDto.setContentTypeId(rset.getInt("content_type_id"));
 				AIDto.setTitle(rset.getString("title"));
@@ -70,7 +72,6 @@ public class AttractionDaoImpl implements AttractionDao{
 				AIDto.setLatitude(rset.getDouble("latitude"));
 				AIDto.setLongitude(rset.getDouble("longitude"));
 				AIDto.setMlevel(rset.getString("mlevel"));
-				
 				list.add(AIDto);
 			}
 		} catch (SQLException e) {

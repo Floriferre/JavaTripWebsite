@@ -21,7 +21,7 @@
 					<form method="POST" id="form-modify" action="">
 						<input type="hidden" name="action" value="modify" />
 						<div class="mb-3">
-							<input type="text" class="form-control" id="username" name="username" aria-describedby="emailHelp" placeholder="이름" value="${userinfo.userName }" />
+							<input type="text" class="form-control" id="username" name="username" aria-describedby="emailHelp" placeholder="이름" value="${userinfo.userName }" disabled/>
 						</div>
 						<div class="mb-3">
 							<input type="text" class="form-control" id="userid" name="userid" aria-describedby="emailHelp" placeholder="아이디" value="${userinfo.userId }" disabled />
@@ -36,17 +36,6 @@
 							</div>
 						</div>
 						<div id="result-view-pwd" class="mb-3"></div>
-						<div class="mb-3 d-flex email form-control">
-							<input type="text" class="border-0" id="email" name="emailid" placeholder="이메일" value="${userinfo.emailId }" />
-							<div class="border-0 form-control">@</div>
-							<select class="border-0 form-select" name="emaildomain" id="email2">
-								<option value="naver.com" <c:if test="${userinfo.emailDomain eq 'naver.com'}">selected</c:if>>naver.com</option>
-								<option value="gmail.com" <c:if test="${userinfo.emailDomain eq 'gmail.com'}">selected</c:if>>gmail.com</option>
-								<option value="daum.net" <c:if test="${userinfo.emailDomain eq 'daum.net'}">selected</c:if>>daum.net</option>
-								<option value="">직접입력</option>
-							</select>
-							<input type="text" id="email3" class="form-control border-0" placeholder="직접 입력" />
-						</div>
 						<button type="button" id="btn-modify" class="w-100 btn signup-btn">수정하기</button>
 					</form>
 					<a href="" id="btn-delete" class="w-100 btn btn-danger mt-2">탈퇴하기</a>
@@ -81,8 +70,6 @@
     
     document.querySelector("#btn-modify").addEventListener("click", function (e) {
     	e.preventDefault();
-    	console.log(document.querySelector("#email2").value);
-    	console.log(document.querySelector("#email2"));
         if (!document.querySelector("#username").value) {
           alert("이름 입력!!");
           return;
