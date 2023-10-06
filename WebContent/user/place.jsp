@@ -247,7 +247,17 @@
 	    if (trips) {
 	      let tripList = ``;
 	      positions = [];
+	      document.querySelector("table").setAttribute("style", "display: ;");
 	      trips.forEach((area) => {
+    	    tripList += `
+    	        <tr onclick="moveCenter(\${area.mapy}, \${area.mapx});">
+    	          <td><img src="\${area.firstImage}" width="100px" onError=""></td>
+    	          <td> \${area.title}</td>
+    	          <td>\${area.addr1} \${area.addr2}</td>
+    	          <td>\${area.latitude}</td>
+    	          <td>\${area.longitude}</td>
+    	        </tr>
+    	      `;
 	    	 let str = `\${area.firstImage}`;
 	    	 if (str.length == 0) str = `\${area.secondImage}`;
 	        let markerInfo = {
@@ -255,11 +265,11 @@
 	          latlng: new kakao.maps.LatLng(`\${area.latitude}`, `\${area.longitude}`),
 	          addr: `\${area.addr1} \${area.addr2}`,
 	          type: `\${area.contentTypeId}`,
-           	  image: str,    
+           	  image: `\${area.firstImage}`,    
 	        };
 	        positions.push(markerInfo);
 	      });
-	      // document.getElementById("trip-list").innerHTML = tripList;
+	      document.getElementById("trip-list").innerHTML = tripList;
 	      displayMarker();
 	    } else {
 	      alert("검색 결과가 존재하지 않습니다.");
