@@ -2,6 +2,9 @@ package com.ssafy.board.controller;
 
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -103,6 +106,26 @@ public class BoardController extends HttpServlet {
 				map.put("word", word);
 				
 				List<BoardDto> list = boardService.listArticle(map);
+				
+				
+//				// 임시로 
+//				for(int i = 0; i < list.size(); i++) {
+//					for(int j = 0; j < list.size(); j++) {
+//						String todatfm = new SimpleDateFormat("yyyy-MM-dd").format(new Date(System.currentTimeMillis()));
+//						SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");		
+//						
+//						Date day1 = dateFormat.parse(list.get(i).getRegisterTime());
+//						Date day2 = dateFormat.parse(list.get(j).getRegisterTime());
+//						
+//						int compare = day1.compareTo(day2);
+//						
+//						if(compare > 0) {	// day1이 더 큼 : day1이 더 늦은 날짜면 서로 바꿔주기 
+//							Collections.swap(list, i, j);
+//						}
+//					}
+//				}
+				
+				
 				request.setAttribute("articles", list);
 				
 				PageNavigation pageNavigation = boardService.makePageNavigation(map);

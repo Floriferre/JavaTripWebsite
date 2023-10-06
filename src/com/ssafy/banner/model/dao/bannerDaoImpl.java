@@ -36,7 +36,7 @@ public class bannerDaoImpl implements bannerDao {
 			rset = pstmt.executeQuery();
 			
 			while(rset.next()) {
-				bannerDto dto = new bannerDto(rset.getString("overview"), rset.getString("title"), rset.getString("addr1"));
+				bannerDto dto = new bannerDto(rset.getString("overview"), rset.getString("title"), rset.getString("addr1"), rset.getInt("readcount"));
 				list.add(dto);
 			}
 			
