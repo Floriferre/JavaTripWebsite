@@ -125,8 +125,6 @@ public class MemberController extends HttpServlet {
 		memberDto.setUserName(request.getParameter("username"));
 		memberDto.setUserId(request.getParameter("userid"));
 		memberDto.setUserPwd(request.getParameter("userpwd"));
-		memberDto.setEmailId(request.getParameter("emailid"));
-		memberDto.setEmailDomain(request.getParameter("emaildomain"));
 		try {
 			memberService.joinMember(memberDto);
 			return "/index.jsp";
@@ -196,12 +194,10 @@ public class MemberController extends HttpServlet {
 		MemberDto user = (MemberDto)session.getAttribute("userinfo");
 		String userId =user.getUserId();		
 		String userPwd = request.getParameter("userpwd");
-		String emailId = request.getParameter("emailid");
-		String emailDomain = request.getParameter("emaildomain");
 		
-		System.out.printf("%s, %s, %s, %s\n", userId, userPwd, emailId, emailDomain);
+		System.out.printf("%s, %s\n", userId, userPwd);
 		try {
-			int res = memberService.modify(userId, userPwd, emailId, emailDomain);
+			int res = memberService.modify(userId, userPwd);
 			if(res == -1) {
 				return "/error/error.jsp";
 			} else {

@@ -18,7 +18,7 @@ fetch(areaUrl, { method: "GET" }) // 시도 얻어오기
 // 위 데이터를 가지고 공공데이터에 요청.
 // 받은 데이터를 이용하여 화면 구성.
 
-document.querySelectorAll("#recommendList").forEach((selector) => {
+//document.querySelectorAll("#recommendList").forEach((selector) => {
   let baseUrl = `https://apis.data.go.kr/B551011/KorService1/`;
   // let searchUrl =
 	// `https://apis.data.go.kr/B551011/KorService1/searchKeyword1?serviceKey=${serviceKey}&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A`;
@@ -41,7 +41,6 @@ document.querySelectorAll("#recommendList").forEach((selector) => {
   fetch(searchUrl)
     .then((response) => response.json())
     .then((data) => {
-      console.log("나는 되고 있을까?" + data.response.body.items.item);
       makeRecommendList(data);
     });
 });
@@ -53,6 +52,7 @@ function makeRecommendList(data) {
   let i = 0;
   let imgcheck = false;
 
+  console.log(trips);
   trips.forEach((area) => {
     if (i == 6) {
       return false;

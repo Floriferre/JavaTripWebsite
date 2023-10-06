@@ -31,7 +31,7 @@ public class MemberDaoImpl implements MemberDao {
 			conn = dbUtil.getConnection();
 			StringBuilder loginMember = new StringBuilder();
 			loginMember.append("select count(user_id) \n");
-			loginMember.append("from member \n");
+			loginMember.append("from members \n");
 			loginMember.append("where user_id = ? ");
 			pstmt = conn.prepareStatement(loginMember.toString());
 			pstmt.setString(1, userId);
@@ -52,14 +52,12 @@ public class MemberDaoImpl implements MemberDao {
 		try {
 			conn = dbUtil.getConnection();
 			StringBuilder sql = new StringBuilder();
-			sql.append("insert into member (user_id, user_name, user_pass, email_id, email_domain) \n");
-			sql.append("values (?, ?, ?, ?, ?)");
+			sql.append("insert into members (user_id, user_name, user_password) \n");
+			sql.append("values (?, ?, ?)");
 			pstmt = conn.prepareStatement(sql.toString());
 			pstmt.setString(1, memberDto.getUserId());
 			pstmt.setString(2, memberDto.getUserName());
 			pstmt.setString(3, memberDto.getUserPwd());
-			pstmt.setString(4, memberDto.getEmailId());
-			pstmt.setString(5, memberDto.getEmailDomain());
 			cnt = pstmt.executeUpdate();
 		} finally {
 			dbUtil.close(pstmt, conn);
@@ -78,8 +76,8 @@ public class MemberDaoImpl implements MemberDao {
 			conn = dbUtil.getConnection();
 			StringBuilder loginMember = new StringBuilder();
 			loginMember.append("select * \n");
-			loginMember.append("from member \n");
-			loginMember.append("where user_id = ? and user_pass = ? \n");
+			loginMember.append("from members \n");
+			loginMember.append("where user_id = ? and user_password = ? \n");
 			pstmt = conn.prepareStatement(loginMember.toString());
 			pstmt.setString(1, userId);
 			pstmt.setString(2, userPwd);
@@ -88,9 +86,7 @@ public class MemberDaoImpl implements MemberDao {
 				memberDto = new MemberDto();
 				memberDto.setUserId(rs.getString("user_id"));
 				memberDto.setUserName(rs.getString("user_name"));
-				memberDto.setUserPwd(rs.getString("user_pass"));
-				memberDto.setEmailId(rs.getString("email_id"));
-				memberDto.setEmailDomain(rs.getString("email_domain"));
+				memberDto.setUserPwd(rs.getString("user_password"));
 			}
 		} finally {
 			dbUtil.close(rs, pstmt, conn);
@@ -99,19 +95,17 @@ public class MemberDaoImpl implements MemberDao {
 	}
 
 	@Override
-	public int modify(String userId, String userPwd, String emailId, String emailDomain) throws SQLException {
+	public int modify(String userId, String userPwd) throws SQLException {
 		int res = -1;
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		String sql = "update member set user_pass = ?, email_id = ?, email_domain = ? where user_id = ?";
+		String sql = "update members set user_pass = ? where user_id = ?";
 		
 		try {
 			con = DBUtil.getInstance().getConnection();
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, userPwd);
-			pstmt.setString(2, emailId);
-			pstmt.setString(3, emailDomain);
-			pstmt.setString(4, userId);
+			pstmt.setString(2, userId);
 			res = pstmt.executeUpdate();
 		} finally {
 			DBUtil.getInstance().close(pstmt, con);
@@ -125,7 +119,7 @@ public class MemberDaoImpl implements MemberDao {
 		int res = -1;
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		String sql = "delete from member\r\n" + 
+		String sql = "delete from members\r\n" + 
 				"where user_id = ?";
 
 		try {

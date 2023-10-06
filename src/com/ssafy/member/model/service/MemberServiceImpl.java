@@ -33,8 +33,8 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public int modify(String userId, String userPwd, String emailId, String emailDomain) throws Exception {
-		return memberDao.modify(userId, userPwd, emailId, emailDomain);
+	public int modify(String userId, String userPwd) throws Exception {
+		return memberDao.modify(userId, userPwd);
 	}
 
 	@Override

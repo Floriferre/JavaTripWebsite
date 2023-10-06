@@ -45,9 +45,7 @@ public class bannerSearchController extends HttpServlet {
 		String subject = request.getParameter("bannerSearch");
 		List<bannerDto> list = bannerServiceImpl.getimpl().listSights(subject);
 		request.setAttribute("list", list);
-		forward(request, response, "/user/bannerSearch.jsp");
-	
-		
+		forward(request, response, "/user/bannerSearch.jsp");		
 	}
 	
 
