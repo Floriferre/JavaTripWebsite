@@ -196,36 +196,36 @@ console.log("${root}/assets/css/style.css");
     
  // 배너에서 검색어 입력하면 보여줄 것!
     document.querySelector("#bannerSearch").addEventListener("click", function(){
-    	console.log("여기가 찍히긴 하니?")
-
     	location.href = "${root}/banner?action=bannerSearch&bannerSearch=" + document.querySelector("#banner-search").value;
     });
-    document.querySelectorAll("#recommendList").forEach((selector) => {
+    document.querySelectorAll("#recommendList").forEach(async function(selector) {
     	  // 유형 정보가 있을 때만 쿼리에 더해주기 - 유형 정보 랜덤
-    	  makeRecommendList(data);
-    });
-    async function makeRecommendList(data) {
+    		const response = await fetch("${root}/info?action=randomPick", {
+    			method: "get",
+    			headers: {
+    				'Content-Type': 'application/x-www-form-urlencoded'
+    			}
+    		});
+    		const trips = await response.json();
+    		makeRecommendList(trips);
+    	});
+    async function makeRecommendList(trips) {
     	  let mother = document.querySelector("#recommendList");
-    	  let trips = data.response.body.items.item;
     	  // let tripList = ``;
 
     	  let i = 0;
     	  let imgcheck = false;
 
     	  trips.forEach((area) => {
-    	    if (i == 6) {
-    	      return false;
-    	    }
     	    let div1 = document.createElement("div");
     	    div1.setAttribute("class", "place-wrapper");
     	    // div.style.backgroundImage = `url(${url})`;
-    	    console.log(`${area.firstimage}`);
-    	    if(`${area.firstimage}` == ""){
-    	    	console.log("이미지 없다!!!");
+	    	 let str = `\${area.firstImage}`;
+    	    if(typeof str == "undefined" || str == null || str == "" || `\${str}` == ""){
     	    	div1.style.backgroundImage = `url(assets/img/sample.png)`;
     	    	imgcheck = false;
-    	    }else{
-    	    	div1.style.backgroundImage = `url(${area.firstimage})`;
+    	    } else{
+    	    	div1.style.backgroundImage = `url(\${str})`;
     	    	imgcheck = true;
     	    }   
     	// div1.style.backgroundImage = `url(${area.firstimage})`;
@@ -251,70 +251,10 @@ console.log("${root}/assets/css/style.css");
     	    div1.appendChild(div2);
     	    // 그동안에 있던 거 다 붙이기!
     	    mother.appendChild(div1);
-
-    	    document
-    	      .querySelector(`#btnRecommend${i}`)
-    	      .addEventListener("click", (e) => {
-    	        document.querySelector("#placeModalLabel").innerText = area.title;
-
-    	        // 내용 가져오기
-    	        let baseUrl = `https://apis.data.go.kr/B551011/KorService1/`;
-
-    	        let queryString = `serviceKey=${serviceKey}&MobileOS=ETC&MobileApp=AppTest&_type=json`;
-    	        // 지역 정보는 1~17로 이루어져 있음!
-    	        queryString += `&contentId=${area.contentid}`;
-    	        queryString += `&defaultYN=Y&firstImageYN=Y&areacodeYN=Y&catcodeYN=Y&addrinfoYN=Y&mapinfoYN=Y&overviewYN=Y&numOfRows=10&pageNo=1`;
-
-    	        let service = `detailCommon1`;
-
-    	        let searchUrl = baseUrl + service + "?" + queryString;
-    	        fetch(searchUrl)
-    	          .then((response) => response.json())
-    	          .then((data) => {
-    	            console.log(
-    	              "나는 되고 있을까?" + data.response.body.items.item[0].overview
-    	            );
-    	            if(`${data.response.body.items.item[0].firstimage}`==""){
-    	            	document
-    	                .querySelector("#modalImg")
-    	                .setAttribute(
-    	                  "src",
-    	                  `assets/img/sample.png`
-    	                );
-    	            }else{
-    	            	document
-    	            	.querySelector("#modalImg")
-    	            	.setAttribute(
-    	            			"src",
-    	            			`${data.response.body.items.item[0].firstimage}`
-    	            	);            	
-    	            }
-    	            
-    	    
-    	            document.querySelector("#addr").innerText =
-    	              data.response.body.items.item[0].addr1;
-    	            document.querySelector("#overview").innerText = innerHTML =
-    	              `${data.response.body.items.item[0].overview}`.replace(
-    	                /<\/?[^>]+(>|$)/g,
-    	                ""
-    	              );
-    	            document
-    	              .querySelector("#page")
-    	              .setAttribute(
-    	                "href",
-    	                `${data.response.body.items.item[0].homepage}`.replace(
-    	                  /<\/?[^>]+(>|$)/g,
-    	                  ""
-    	                )
-    	              );
-    	          });
-    	      });
-
     	    i++;
     	  });
     	}
     </script>
     <script src="${root}/assets/js/index.js"></script>
-    <script src="${root}/assets/js/index_recommend.js"></script>
   </body>
 </html>

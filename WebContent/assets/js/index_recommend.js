@@ -1,10 +1,16 @@
 document.querySelectorAll("#recommendList").forEach((selector) => {
   // 유형 정보가 있을 때만 쿼리에 더해주기 - 유형 정보 랜덤
-  makeRecommendList(data);
+	const response = await fetch("${root}/info?action=randomPick", {
+		method: "get",
+		headers: {
+			'Content-Type': 'application/x-www-form-urlencoded'
+		}
+	});
+	const trips = await response.json();
+	makeRecommendList(trips);
 });
-async function makeRecommendList(data) {
+async function makeRecommendList(trips) {
   let mother = document.querySelector("#recommendList");
-  let trips = data.response.body.items.item;
   // let tripList = ``;
 
   let i = 0;
@@ -17,13 +23,13 @@ async function makeRecommendList(data) {
     let div1 = document.createElement("div");
     div1.setAttribute("class", "place-wrapper");
     // div.style.backgroundImage = `url(${url})`;
-    console.log(`${area.firstimage}`);
-    if(`${area.firstimage}` == ""){
+    console.log(`${area.firstImage}`);
+    if(`${area.firstImage}` == ""){
     	console.log("이미지 없다!!!");
     	div1.style.backgroundImage = `url(assets/img/sample.png)`;
     	imgcheck = false;
-    }else{
-    	div1.style.backgroundImage = `url(${area.firstimage})`;
+    } else{
+    	div1.style.backgroundImage = `url(${area.firstImage})`;
     	imgcheck = true;
     }   
 // div1.style.backgroundImage = `url(${area.firstimage})`;

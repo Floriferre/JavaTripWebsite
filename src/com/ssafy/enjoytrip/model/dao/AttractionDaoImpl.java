@@ -19,6 +19,51 @@ public class AttractionDaoImpl implements AttractionDao{
 		return AttractionDaoImpl;
 	}
 
+	
+	@Override
+	public List<AttractionInfoDto> randomAttList(Connection con) {
+		List<AttractionInfoDto> list = new ArrayList<>();
+StringBuilder sql = new StringBuilder();
+		
+		PreparedStatement stmt = null;
+		ResultSet rset = null;
+		try {
+			con = DBUtil.getInstance().getConnection();
+			
+			sql.append("select * from attraction_info order by rand() limit 6;");
+
+			stmt = con.prepareStatement(sql.toString());
+			
+
+			rset = stmt.executeQuery();
+			
+			while(rset.next()) {
+				AttractionInfoDto AIDto = new AttractionInfoDto();
+				AIDto.setContentId(rset.getInt("Content_id"));
+				AIDto.setContentTypeId(rset.getInt("content_type_id"));
+				AIDto.setTitle(rset.getString("title"));
+				AIDto.setAddr1(rset.getString("addr1"));
+				AIDto.setAddr2(rset.getString("addr2"));
+				AIDto.setTel(rset.getString("tel"));
+				AIDto.setFirstImage(rset.getString("first_image"));
+				AIDto.setFirstImage2(rset.getString("first_image2"));
+				AIDto.setReadcount(rset.getInt("readcount"));
+				AIDto.setSidoCode(rset.getInt("sido_code"));
+				AIDto.setGugunCode(rset.getInt("gugun_code"));
+				AIDto.setLatitude(rset.getDouble("latitude"));
+				AIDto.setLongitude(rset.getDouble("longitude"));
+				AIDto.setMlevel(rset.getString("mlevel"));
+				list.add(AIDto);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			DBUtil.getInstance().close(rset, stmt);
+		}
+		return list;
+	}
+	
 	@Override
 	public List<AttractionInfoDto> attractionList(Connection con, AttractionInfoDto attractionInfoDto) {
 		// TODO Auto-generated method stub

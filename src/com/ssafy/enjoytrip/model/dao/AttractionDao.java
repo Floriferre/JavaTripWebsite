@@ -10,5 +10,5 @@ public interface AttractionDao {
 	List<AttractionInfoDto> attractionList(Connection con, AttractionInfoDto attractionInfoDto);
 
 	List<AttractionInfoDto> searchByTitle(Connection con, String title, int sidoCode);
-
+	List<AttractionInfoDto> randomAttList(Connection con);
 }

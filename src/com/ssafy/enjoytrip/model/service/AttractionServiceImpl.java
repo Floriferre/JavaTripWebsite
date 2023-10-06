@@ -39,5 +39,15 @@ public class AttractionServiceImpl implements AttractionService{
 			DBUtil.getInstance().close(con);
 		}
 	}
+	@Override
+	public List<AttractionInfoDto> randomAttList() throws SQLException{
+		Connection con = null;
+		try {
+			con = DBUtil.getInstance().getConnection();
+			return AttractionDaoImpl.getAttractionDao().randomAttList(con);
+		}finally {
+			DBUtil.getInstance().close(con);
+		}
+	}
 
 }

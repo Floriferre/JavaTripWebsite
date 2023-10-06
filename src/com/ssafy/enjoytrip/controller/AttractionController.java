@@ -30,9 +30,27 @@ public class AttractionController extends HttpServlet {
 				attInfo(request, response);
 			} else if ("sidoInfo".equals(action)) {
 				sidoInfo(request, response);
+			} else if ("randomPick".equals(action)) {
+				randomPick(request, response);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+	
+	protected void randomPick(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		List<AttractionInfoDto> list = null;
+		try {
+			list = AttractionServiceImpl.getAttractionService().randomAttList();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			ObjectMapper mapper = new ObjectMapper();
+			String json = mapper.writeValueAsString(list);
+			// 직접 데이터를 전달한다.
+			response.setContentType("application/json;charset=utf-8");
+			response.getWriter().write(json);
 		}
 	}
 
