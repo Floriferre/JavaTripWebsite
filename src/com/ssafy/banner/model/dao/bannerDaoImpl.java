@@ -48,10 +48,6 @@ public class bannerDaoImpl implements bannerDao {
 			DBUtil.getInstance().close(con, pstmt, rset);
 		}
 		
-		
-		
-		
-		
 		return list;
 	}
 	
