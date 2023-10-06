@@ -52,41 +52,85 @@
 							<th scope="col">TITLE</th>
 							<th scope="col">OVERVIEW</th>
 							<th scope="col">ADDRESS</th>
-
+							<th scope="col">HIT</th>
 						</tr>
 					</thead>
 					<tbody>
+					<%!
+					  public static void quickSort(bannerDto[] arr, int low, int high) {
+				        if (low < high) {
+				            int pi = partition(arr, low, high);
 
+				            quickSort(arr, low, pi - 1);
+				            quickSort(arr, pi + 1, high);
+				        }
+				    }
+
+				    public static int partition(bannerDto[] arr, int low, int high) {
+				        bannerDto pivot = arr[high]; 
+				        int i = (low - 1);     
+
+				        for (int j = low; j < high; j++) {
+				            if (arr[j].getReadCount() >= pivot.getReadCount()) {
+				                i++;
+
+				                bannerDto temp = arr[i];
+				                arr[i] = arr[j];
+				                arr[j] = temp;
+				            }
+				        }
+
+				        bannerDto temp = arr[i + 1];
+				        arr[i + 1] = arr[high];
+				        arr[high] = temp;
+
+				        return i + 1;
+				    }
+					%>
+					
+					<%@ page import="java.util.*"%>
 						<%
-							List<bannerDto> list = (List<bannerDto>) request.getAttribute("list");
-								System.out.println(list.size() + " 리스트 사이즈");
-								
-								// 팀 정렬
-								long startTimeTim =  System.currentTimeMillis();
-								
-								
-								// 버블 정렬
-								long startTimeBubble = System.currentTimeMillis();
-								// 버블 정렬   
-								// 임시로 
-								for (int i = 0; i < list.size(); i++) {
-									for (int j = 0; j < list.size(); j++) {
-										int result1 = list.get(i).getReadCount();
-										int result2 = list.get(j).getReadCount();
+							List<bannerDto> lst = (List<bannerDto>) request.getAttribute("list");
+							
+							bannerDto[] burArr = lst.toArray(new bannerDto[lst.size()]);
+							bannerDto[] quickArr = lst.toArray(new bannerDto[lst.size()]);
+							System.out.println(lst.size() + " 리스트 사이즈");
+							// 팀 정렬
+							long startTimeQuick =  System.currentTimeMillis();
+							quickSort(quickArr, 0, quickArr.length - 1);
+							long endTimeTim = System.currentTimeMillis();
 
-										int compare = Integer.compare(result1, result2);
+							long startTimeBubble = System.currentTimeMillis();
+							// 버블 정렬 
+							for (int i = 0; i < burArr.length; i++) {
+								for (int j = i; j < burArr.length; j++) {
+									int result1 = burArr[i].getReadCount();
+									int result2 = burArr[j].getReadCount();
 
-										// 더 많이 읽은 수로 내림차순 정렬 
-										if (compare > 0) { // day1이 더 큼 : day1이 더 늦은 날짜면 서로 바꿔주기 
-											Collections.swap(list, i, j);
-										}
+									// 더 많이 읽은 수로 내림차순 정렬 
+									if (result1 < result2) {  
+										bannerDto tmp = burArr[i];
+										burArr[i] = burArr[j];
+										burArr[j] = tmp;
 									}
 								}
-								long endTime = System.currentTimeMillis();
-								long elapsedTime = endTime - startTimeBubble;
-								long elapsedTime2 = endTime - startTimeBubble;
-								System.out.println("버블 정렬 시간 차이 : " + elapsedTime);
-								System.out.println("팀 정렬 시간 차이 : " + elapsedTime);
+							}
+							long endTimeBurble = System.currentTimeMillis();
+							long elapsedTime = endTimeBurble - startTimeBubble;
+							long elapsedTime2 = endTimeTim - startTimeQuick;
+							boolean burchk = true;
+							if (!burchk) System.out.println("버블 정렬 실패!");
+							boolean quickchk = true;
+							for (int i = 1; i < burArr.length; i++) {
+								if (quickArr[i - 1].getReadCount() < quickArr[i].getReadCount()) {
+									quickchk = false;
+									break;
+								}
+							}
+							if (!quickchk) System.out.println("퀵 정렬 실패!");
+							System.out.println("버블 정렬 시간 : " + elapsedTime);
+							System.out.println("퀵 정렬 시간 : " + elapsedTime2);
+							request.setAttribute("list", quickArr);
 						%>
 						<c:forEach var="list" items="${list}">
 							<tr class="text-center">
@@ -116,5 +160,4 @@
 	</form>
 	<%@ include file="/common/footer.jsp"%>
 </body>
-
 </html>

@@ -221,10 +221,10 @@ console.log("${root}/assets/css/style.css");
     	    div1.setAttribute("class", "place-wrapper");
     	    // div.style.backgroundImage = `url(${url})`;
 	    	 let str = `\${area.firstImage}`;
-    	    if(typeof str == "undefined" || str == null || str == "" || `\${str}` == ""){
+    	    if(typeof `\${str}` == "undefined" || `\${str}` == ""){
     	    	div1.style.backgroundImage = `url(assets/img/sample.png)`;
     	    	imgcheck = false;
-    	    } else{
+    	    } else {
     	    	div1.style.backgroundImage = `url(\${str})`;
     	    	imgcheck = true;
     	    }   
