@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
    <%@include file="/common/header.jsp"%>
+   <%@include file="/common/alert.jsp"%>
 <c:if test="${!empty cookie.ssafy_id }">
 	<c:set var="saveid" value="checked"></c:set>
 	<c:set var="userid" value="${cookie.ssafy_id.value }"></c:set>

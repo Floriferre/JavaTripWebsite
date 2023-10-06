@@ -26,7 +26,7 @@
         </ul>
       </div>
       <div class="container justify-content-center">
-        <p>SSAFY 10기 Frontend 관통 프로젝트 : 정여민, 최은비</p>
+        <p>SSAFY 10기 Frontend 관통 프로젝트 : 김제영, 정여민</p>
       </div>
     </footer>
 
